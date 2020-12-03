@@ -32,6 +32,11 @@ The repository structure is defined as follows:
 * model folder contains train_classifier.py which prepares, builds, trains and reports the metrics for the NLP model. Should be called from terminal
 eg. `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl` 
 it also contains the companion notebook used to build train_classifier.py
+* app folder contains run.py used to deploy the flask app using the model built on train_classifier.py in order to run the app 
+ * Run the following command in the app's directory to run your web app.
+    `python run.py`
+
+ * Go to http://0.0.0.0:3001/
 
 ## Results<a name="results"></a>
 
