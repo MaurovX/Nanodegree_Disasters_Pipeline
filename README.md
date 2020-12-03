@@ -29,7 +29,9 @@ The repository structure is defined as follows:
 * data folder contains both input .csv files, process.py which can be called from terminal. eg.
   `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
   also contains ETL notebook which displays the logic necessary to build process.py
-* model folder contains train_classifier.py which prepares, builds, trains and reports the metrics for the NLP model it also contains the companion notebook used to build train_classifier.py
+* model folder contains train_classifier.py which prepares, builds, trains and reports the metrics for the NLP model. Should be called from terminal
+eg. `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl` 
+it also contains the companion notebook used to build train_classifier.py
 
 ## Results<a name="results"></a>
 
