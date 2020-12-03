@@ -41,8 +41,10 @@ Go to http://0.0.0.0:3001/
 
 ## Results<a name="results"></a>
 
-The main findings of the code can be found at the post available [here](https://medium.com/@mauricio.jac2/this-is-how-credit-agencies-see-you-74664d0ac6c9).
+The main findings of the code can be found at each of the companion notebooks
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
+
+Code formatted via black. Useful for formatting under PEP8
 
 Must give credit to Udacity and its partners for the data and the amazing DataScience course.  You can find the Licensing for the data and other descriptive information at the udacity link available [here](https://www.udacity.com/course/data-scientist-nanodegree--nd025).  Otherwise, feel free to use the code here as you would like! 
