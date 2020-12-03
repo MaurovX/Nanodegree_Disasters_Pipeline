@@ -9,7 +9,11 @@
 5. [Licensing, Authors, and Acknowledgements](#licensing)
  
  ## Installation <a name="installation"></a>
- There are no necessary libraries to be added aside from the Anaconda distribution for Python. Code is written and should be used in Python3
+* Developed under Python 3.6
+* Anaconda distribution of generic wrangling Pandas, Numpy
+* Model, Scikit-learn and NLP libraries from nltk
+* Data exports using SQLite, Pickle
+
  
  ## Project Motivation <a name="motivation"></a>
  
