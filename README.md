@@ -12,7 +12,9 @@
 * Developed under Python 3.6
 * Anaconda distribution of generic wrangling Pandas, Numpy
 * Model, Scikit-learn and NLP libraries from nltk
+* NLP preprocessing: normalise 
 * Data exports using SQLite, Pickle
+
 
  
  ## Project Motivation <a name="motivation"></a>
