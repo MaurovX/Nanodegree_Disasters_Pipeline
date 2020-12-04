@@ -19,14 +19,25 @@ import pickle
 
 # NLP preprocessing
 import re
+import string
+
 import nltk
+from nltk.stem import PorterStemmer
+nltk.download('brown')
 nltk.download("punkt")
 nltk.download("wordnet")
 nltk.download("averaged_perceptron_tagger")
+nltk.download('names')
+nltk.download('universal_tagset')
+
+# Independent libraries
+from normalise import normalise
+from normalise import tokenize_basic
+import spacy
 
 # Model builders
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
-from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
@@ -34,7 +45,6 @@ from sklearn.metrics import fbeta_score, make_scorer
 from sklearn.model_selection import GridSearchCV
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.base import BaseEstimator, TransformerMixin
-
 
 def load_data(database_filename):
     """
@@ -69,49 +79,26 @@ def tokenize(text):
     :return:  clean_tokens as a DataFrame that contains each message
               preprocessed for modelling
     """
+    # Convert to lowercase
+    text_lw = text.lower()
+
     # Extract the word tokens from the provided text
-    tokens = nltk.word_tokenize(text)
+    tokens = nltk.word_tokenize(text_lw)
 
     # Lemmanitizer to get the 'grammatical root'  of each word
     lemmatizer = nltk.WordNetLemmatizer()
 
     # List of clean tokens standarized
-    clean_tokens = [lemmatizer.lemmatize(w).lower().strip() for w in tokens]
-    return clean_tokens
-
-
-class StartingVerbExtractor(BaseEstimator, TransformerMixin):
-    """
-    StartingVerbExtractor Finds the starting verb of each sentence.
-
-    :text: Dataframe of text features
+    tokens = [lemmatizer.lemmatize(w).lower().strip() for w in tokens]
     
-    :return: X_tagged Dataframe which consists of starting verbs
-             of each message
-    """
-    def starting_verb(self, text):
-        """
-        starting_verb Finds the starting verb of each sentence.
-
-        :text: Dataframe of text features
-
-        """
-        sentence_list = nltk.sent_tokenize(text)
-        for sentence in sentence_list:
-            pos_tags = nltk.pos_tag(tokenize(sentence))
-            first_word, first_tag = pos_tags[0]
-            
-            if first_tag in ["VB", "VBP"] or first_word == "RT":
-                return True
-        return False
-
-    # Given it is a tranformer we can return the self
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        X_tagged = pd.Series(X).apply(self.starting_verb)
-        return pd.DataFrame(X_tagged)
+    # Remove stop words
+    nltk_stop_words = nltk.corpus.stopwords.words('english')
+    tokens_ns = [t for t in tokens if t not in nltk_stop_words]
+    
+    # Remove punctuation
+    clean_tokens = [w for w in tokens_ns if w not in string.punctuation]
+   
+    return clean_tokens
 
 
 def build_model():
@@ -145,11 +132,10 @@ def build_model():
                                 ]
                             ),
                         ),
-                        ("starting_verb_transformer", StartingVerbExtractor()),
                     ]
                 ),
             ),
-            ("classifier", MultiOutputClassifier(AdaBoostClassifier())),
+            ("classifier", MultiOutputClassifier(RandomForestClassifier())),
         ]
     )
 
